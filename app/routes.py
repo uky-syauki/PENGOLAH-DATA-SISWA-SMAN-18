@@ -4,3 +4,8 @@ from app import app
 @app.route('/index')
 def index():
 	return "Hello Woy!"
+
+
+@app.route("/user")
+def user():
+	return "This User"
