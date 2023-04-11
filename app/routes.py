@@ -9,3 +9,8 @@ def index():
 @app.route("/user")
 def user():
 	return "This User"
+
+
+@app.route("daftar")
+def daftar():
+	return "This Daftar"
