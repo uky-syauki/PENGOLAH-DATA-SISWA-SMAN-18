@@ -11,6 +11,6 @@ def user():
 	return "This User"
 
 
-@app.route("daftar")
+@app.route("/daftar")
 def daftar():
 	return "This Daftar"
