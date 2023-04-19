@@ -1,0 +1,16 @@
+{% extends "transaksi.html" %}
+
+{% block content %}
+	<form action="" method="post">
+		{{ form.hidden_tag() }}
+		<p>
+			{{ form.kode_barang.label }}<br>
+			{{ form.kode_barang(size=32) }}<br>
+		</p>
+		<p>
+			{{ form.bayar.label }}<br>
+			{{ form.bayar(size=32) }}<br>
+		</p>
+		<p>{{ form.submit() }}</p>
+	</form>
+{% endblock %}
