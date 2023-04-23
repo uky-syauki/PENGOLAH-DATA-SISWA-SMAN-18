@@ -2,7 +2,7 @@
 
 {% block app_content %}
 <div class="row">
-	<div class="col-md-4">
+	<div class="col-md-8">
 		<h2>Transaksi</h2>
 		<form action="" method="post" class="form-inline">
 		{{ form.hidden_tag() }}
@@ -10,11 +10,37 @@
 				{{ form.kode_barang.label(for="myInput") }} <br>
 				{{ form.kode_barang(size=32, class="form-control", id="myInput", placeholder="Kode Barang", autocomplete="off") }}
 				{{ form.submit(class="btn btn-default") }}
+				Total Transaksi: {{ total_tr }}
 				<br><br>
 			</div>
 		</form>
 	</div>
-	{% include 'tabel.html' %}
+        <table class="table table-striped table-bordered">
+                <thead>
+                        <tr>
+                                <th colspan=6><h3 align="center">Histori Transaksi</h3></th>
+                        </tr>
+                        <tr>
+                                <th>Jam & Tanggal</th>
+                                <th>Kode Barang</th>
+                                <th>Nama Barang</th>
+                                <th>Harga Barang</th>
+				<th>Tersedia</th>
+				<th>Admin</th>
+                        </tr>
+                </thead>
+                <tbody>
+                        {% for i in data %}
+                        <tr>
+                                {% for k in i %}
+                                        <td>{{ k }}</td>
+                                {% endfor %}
+                        </tr>
+                        {% endfor %}
+                        </tr>
+                </tbody>
+        </table>
 </div>
-	<script src="{{ url_for('static', filename='script.js') }}"><script>
+	<script type="text/javascript" src="{{ url_for('static', filename='data.json') }}"></script>
+	<script src="{{ url_for('static', filename='script.js') }}"></script>
 {% endblock %}

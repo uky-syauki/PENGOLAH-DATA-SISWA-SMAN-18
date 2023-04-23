@@ -2,8 +2,29 @@
 
 {% block content %}
 	<h1>Hi, {{ current_user.username }}!</h1>
-	{% for isi in data %}
-	<div><p>{{ isi.barang }} Harga: {{ isi.harga }}</p></div>
-	{% endfor %}
-	{% include 'tabel.html' %}
+	<div class="col-md-8">
+	<table class="table table-striped table-bordered">
+		<thead>
+			<tr>
+				<th colspan=4><h3 align="center">Histori Transaksi</h4></th>
+			</tr>
+			<tr>
+				<th>Jam & Tanggal</th>
+				<th>Kode Barang</th>
+				<th>Nama Barang</th>
+				<th>Harga Barang</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for i in data %}
+			<tr>
+				{% for k in i %}
+					<td>{{ k }}</td>
+				{% endfor %}
+			</tr>
+			{% endfor %}
+			</tr>
+		</tbody>
+	</table>
+	</div>
 {% endblock %}

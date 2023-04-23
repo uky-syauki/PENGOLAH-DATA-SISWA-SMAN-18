@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 from app.models import User
 
@@ -30,3 +30,23 @@ class RegistrationForm(FlaskForm):
 class TransaksiForm(FlaskForm):
 	kode_barang = StringField("Kode Barang", validators=[DataRequired()])
 	submit = SubmitField("Kirim")
+
+
+class UpdateForm(FlaskForm):
+	kode_barang = StringField("Kode Barang", validators=[DataRequired()])
+	nama_barang = StringField("Nama Barang", validators=[DataRequired()])
+	harga_jual = IntegerField("Harga Jual", validators=[DataRequired()])
+	harga_modal = IntegerField("Harga Modal",validators=[DataRequired()])
+	tersedia = IntegerField("Tambah Stok",validators=[DataRequired()])
+	submit = SubmitField("Tambahkan")
+
+
+class UpdateForm2(FlaskForm):
+	kode_barang = StringField("Kode Barang", validators=[DataRequired()])
+	tambah_stok = IntegerField("Jumlah", validators=[DataRequired()])
+	submit = SubmitField("Tambah")
+
+
+class StatistikForm(FlaskForm):
+	pass
+

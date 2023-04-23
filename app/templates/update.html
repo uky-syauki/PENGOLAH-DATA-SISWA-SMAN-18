@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+<style>
+td {
+	margin: 10px;
+}
+</style>
+<div class="row">
+	<div class="col-md-4">
+	<table class="table">
+	<form class="form-inline" action="" method="post">
+		{{ form.hidden_tag() }}
+		<tr>
+			<td colspan="2"><h3>Daftarkan Barang</h3></td>
+		</tr>
+		<tr>
+		<div class="form-group">
+			<td>{{ form.kode_barang.label(for="kodeInput") }}</td>
+			<td>{{ form.kode_barang(class="form-control", id="kodeInput", placeholder="Kode Barang") }} </td>
+		</div>
+		</tr>
+		<tr>
+		<div class="form-group">
+			<td>{{ form.nama_barang.label(for="namaInput") }}</td>
+			<td>{{ form.nama_barang(class="form-control", id="namaInput", placeholder="Nama Barang") }}</td>
+		</div>
+		</tr>
+		<tr>
+		<div class="form-group">
+			<td>{{ form.harga_jual.label(for="jualInput") }}</td>
+			<td>{{ form.harga_jual(class="form-control", id="jualInput", placeholder="Harga jual") }}</td>
+		</div>
+		</tr>
+		<tr>
+		<div class="form-group">
+			<td>{{ form.harga_modal.label(for="modalInput") }}</td>
+			<td>{{ form.harga_modal(class="form-control", id="modalInput", placeholder="Harga modal") }}</td>
+		</div>
+		</tr>
+		<tr>
+		<div class="form-group">
+			<td>{{ form.tersedia.label(for="tersediaInput") }}</td>
+			<td>{{ form.tersedia(class="form-control", id="tersediaInput", placeholder="Tersedia") }}</td>
+		</div>
+		</tr>
+		<tr>
+		<div class="form-group">
+			<td></td>
+			<td>{{ form.submit(class="btn btn-default") }}</td>
+		</div>
+		</tr>
+	</form>
+	</table>
+	</div>
+
+
+
+
+	<div class="col-md-8">
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th colspan=5><h3 align="center">Daftar Barang</h4></th>
+				</tr>
+				<tr>
+					<th>No</th>
+					<th>Kode Barang</th>
+					<th>Nama Barang</th>
+					<th>Harga Barang</th>
+					<th>stok brang</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for data in daftar %}
+					<tr>
+					{% for isi in data %}
+						<td>{{ isi }}</td>
+					{% endfor %}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+{% endblock %}
