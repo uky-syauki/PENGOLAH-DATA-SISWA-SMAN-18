@@ -42,7 +42,7 @@ class UpdateForm(FlaskForm):
 
 
 class UpdateForm2(FlaskForm):
-	kode_barang = StringField("Kode Barang", validators=[DataRequired()])
+	kode_barang2 = StringField("Kode Barang", validators=[DataRequired()])
 	tambah_stok = IntegerField("Jumlah", validators=[DataRequired()])
 	submit = SubmitField("Tambah")
 

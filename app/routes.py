@@ -4,7 +4,7 @@ from werkzeug.urls import url_parse
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, TransaksiForm, UpdateForm, StatistikForm, UpdateForm2
 from app.models import User, Barang, Terjual
-from app.buat import Buat
+from app.buat import Buat, DataGrafik
 from app.tabel import Table
 
 app.app_context().push()
@@ -31,21 +31,22 @@ def login():
 @app.route('/index')
 @login_required
 def index():
+	DataGrafik()
 	user = {'username':'Ahmad syauki'}
-	allTerjual = Terjual.query.all()
-	data = []
-	for isi in allTerjual:
-		bungkus = []
-		bungkus.append(isi.timestamp.strftime("%H:%M %m-%d-%y"))
-		bungkus.append(isi.kode_barang)
-		try:
-			fromBarang = Barang.query.filter_by(kode_barang=isi.kode_barang).first()
-			bungkus.append(fromBarang.nama_barang)
-			bungkus.append(fromBarang.harga_jual)
-		except:
-			bungkus.append("None")
-			bungkus.append("None")
-		data.append(bungkus)
+#	allTerjual = Terjual.query.all()
+	data = Table(Terjual).TableTrx()
+#	for isi in allTerjual:
+#		bungkus = []
+#		bungkus.append(isi.timestamp.strftime("%H:%M %m-%d-%y"))
+#		bungkus.append(isi.kode_barang)
+#		try:
+#			fromBarang = Barang.query.filter_by(kode_barang=isi.kode_barang).first()
+#			bungkus.append(fromBarang.nama_barang)
+#			bungkus.append(fromBarang.harga_jual)
+#		except:
+#			bungkus.append("None")
+#			bungkus.append("None")
+#		data.append(bungkus)
 	return render_template('index.html', title='Halaman Utama', data=data)
 
 
@@ -74,7 +75,7 @@ def register():
 @app.route('/transaksi', methods=['GET', 'POST'])
 @login_required
 def transaksi():
-	data = Table(Terjual).select()
+	data = Table(Terjual).TableTrx()
 #	terjual_all = Terjual.query.all()
 #	bnya = conter = len(terjual_all)
 #	for i in range(bnya):
@@ -101,6 +102,9 @@ def transaksi():
 		if barang is None:
 			flash("Kode Barang tidak terdaftar!")
 			return redirect(url_for("transaksi"))
+		if barang.tersedia < 1:
+			flash("Jumlah Barang Habis")
+			return redirect(url_for("transaksi"))
 		jual = Terjual(kode_barang=form.kode_barang.data,user_id=current_user.id)
 		barang.tersedia = barang.tersedia - 1
 		db.session.add(jual)
@@ -113,16 +117,16 @@ def transaksi():
 @app.route('/update', methods=['GET', 'POST'])
 @login_required
 def update():
-	sample = Barang.query.all()
-	daftar = []
-	for isi in sample:
-		aDaftar = []
-		aDaftar.append(isi.id)
-		aDaftar.append(isi.kode_barang)
-		aDaftar.append(isi.nama_barang)
-		aDaftar.append(isi.harga_jual)
-		aDaftar.append(isi.tersedia)
-		daftar.append(aDaftar)
+#	sample = Barang.query.all()
+	daftar = Table(Barang).TableBarang()
+#	for isi in sample:
+#		aDaftar = []
+#		aDaftar.append(isi.id)
+#		aDaftar.append(isi.kode_barang)
+#		aDaftar.append(isi.nama_barang)
+#		aDaftar.append(isi.harga_jual)
+#		aDaftar.append(isi.tersedia)
+#		daftar.append(aDaftar)
 	form = UpdateForm()
 	form2 = UpdateForm2()
 	if form.validate_on_submit():
@@ -130,12 +134,10 @@ def update():
 		db.session.add(barang)
 		db.session.commit()
 		return redirect(url_for("update"))
-#	elif form2.validate_on_submit():
-#		ditambah = Barang.query.filter_by(kode_barang=form2.kode_barang.data).first()
-#		ditambah.tersedia = ditambah.tersedia + form2.tambah_stok.data
-#		db.session.add(ditambah)
-#		db.session.commit()
-#		return redirect(url_for("update"))
+	elif form2.validate_on_submit():
+		barang = Table(Barang)
+		barang.update(form2.kode_barang2.data,form2.tambah_stok.data)
+		return redirect(url_for("update"))
 	return render_template('update.html', title="Update Barang", form=form, daftar=daftar, form2=form2)
 
 

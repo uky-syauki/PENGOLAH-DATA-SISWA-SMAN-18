@@ -30,7 +30,7 @@ class Barang(db.Model):
 
 class Terjual(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+	timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
 	kode_barang = db.Column(db.String(15))
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 	def __repr__(self):
