@@ -8,6 +8,7 @@ class User(UserMixin, db.Model):
 	username = db.Column(db.String(64), index=True, unique=True)
 	email = db.Column(db.String(120), index=True, unique=True)
 	password_hash = db.Column(db.String(128))
+#	status = db.Column(db.String(10), default="admin")
 	terjual = db.relationship('Terjual', backref="author", lazy='dynamic')
 	def set_password(self, password):
 		self.password_hash = generate_password_hash(password)
@@ -28,9 +29,18 @@ class Barang(db.Model):
 		return '<Barang {}>'.format(self.kode_barang)
 
 
+#class Toko(db.Model):
+#	id = db.Column(db.Column(db.Integer, primary_key=True))
+#	kode_toko = db.Column(db.String(15), unique=True)
+#	nama_toko = db.Column(db.String(20))
+#	def __repr__(self):
+#		return '<Toko {}>'.format(self.kode_toko)
+
+
 class Terjual(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
+#	kode_toko = db.Column(db.String(15))
 	kode_barang = db.Column(db.String(15))
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 	def __repr__(self):

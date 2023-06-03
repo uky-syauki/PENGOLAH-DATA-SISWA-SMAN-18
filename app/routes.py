@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_user, login_required, logout_user
 from werkzeug.urls import url_parse
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, TransaksiForm, UpdateForm, StatistikForm, UpdateForm2
+from app.forms import LoginForm, RegistrationForm, TransaksiForm, UpdateForm, StatistikForm, UpdateForm2, FormBulan
 from app.models import User, Barang, Terjual
 from app.buat import Buat, DataGrafik
 from app.tabel import Table
@@ -28,10 +28,11 @@ def login():
 
 
 @app.route('/')
-@app.route('/index')
+@app.route('/index', methods=['GET','POST'])
 @login_required
 def index():
-	DataGrafik()
+	form = FormBulan()
+	DataGrafik("3")
 	user = {'username':'Ahmad syauki'}
 #	allTerjual = Terjual.query.all()
 	data = Table(Terjual).TableTrx()
@@ -47,7 +48,9 @@ def index():
 #			bungkus.append("None")
 #			bungkus.append("None")
 #		data.append(bungkus)
-	return render_template('index.html', title='Halaman Utama', data=data)
+	if form.validate_on_submit():
+		DataGrafik(form.bulan.data)
+	return render_template('index.html', title='Halaman Utama', data=data, form=form)
 
 
 @app.route("/user")

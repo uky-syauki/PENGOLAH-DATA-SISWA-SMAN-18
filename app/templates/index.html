@@ -1,15 +1,68 @@
 {% extends "base.html" %}
 
 {% block content %}
+<style>
+	.form-control{
+		width: 20%;
+		display: inline;
+	}
+</style>
 <br><br><br>
 <div class="container">
 	<div class="row">
-		<div class="col-md-8">
-			<h4 align="center">Statistik penjualan barang di bulan <span id="bulan"></span></h4>
-			<canvas id="myChart" style="width: 100%; max-width:600px; max-height: 200px"></canvas>
+		<div class="col-md-7">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+				<form action="" method="post">
+					{{ form.hidden_tag() }}
+					<p>
+					{{ form.bulan.label }}
+					{{ form.bulan(size=10, class="form-control") }}
+					{{ form.submit(class="btn btn-default") }}
+					</p>
+				</form>	
+				</div>
+				<table class="table">
+					<tr>
+						<th>Info Statistik</th>
+						<th>Nilai</th>
+					</tr>
+					<tr>
+						<td>Penjualan barang di bulan</td>
+						<td id="bulanInfo"></td>
+					</tr>
+					<tr>
+						<td>Barang terjual</td>
+						<td id="totalInfo"></td>
+					</tr>
+				</table>
+	<!--
+				<div class="panel-body">
+					<ul class="list-group">
+						<li class="list-group-item">Statistik penjualan barang di bulan <span align="right" id="bulanInfo"></span></li>
+						<li class="list-group-item">Total barang terjual <span align="right" id="totalInfo"></span></li>
+					<ul class="list-group"> --
+						<li class="list-group-item">Cras justo odio</li>
+					</ul>
+				</div> -->
+				<canvas id="myChart" style="width: 100%; max-width:600px; max-height: 200px"></canvas>
+			</div>
 		</div>
-		<div class="col-md-4">
-			<h1>Hello</h1>
+		<div class="col-md-5">
+			<div class="panel panel-default">
+				<div class="panel-heading">Panel heading without title</div>
+				<div class="panel-body">
+				    Panel content
+					<canvas id="horizontalBar"></canvas>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-8">
+			<canvas id="barChart"></canvas>
 		</div>
 	</div>
 </div>

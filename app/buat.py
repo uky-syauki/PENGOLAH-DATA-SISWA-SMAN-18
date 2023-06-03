@@ -32,17 +32,18 @@ class Buat:
 
 
 class DataGrafik:
-	def __init__(self):
+	def __init__(self,bulan=None):
+		self.ibln = bulan
 		self.allData = Terjual.query.all()
 		if bool(os.system("cat mysite/app/static/dataGrafig.json")):
 			self.f = open("mysite/app/static/dataGrafig.json","a")
-			self.getData, self.bln = self.full_date()
+			self.getData, self.bln = self.full_date(self.ibln)
 			self.f.writelines("GrafikData =" + str(self.getData))
 			self.f.writelines(";\nbulan = ["+str(self.bln)+"]")
 			self.f.close()
 		else:
 			os.system("rm mysite/app/static/dataGrafig.json")
-			DataGrafik()
+			DataGrafik(self.ibln)
 	def banyak_ondate(self, tgl = None):
 		hasil = 0
 		if tgl is None:
@@ -58,15 +59,16 @@ class DataGrafik:
 		tgl = 0
 		if bln is None:
 			bln = datetime.utcnow().strftime("%m")
+#			bln="0"+str()
 		else:
-			bln = bln
-			if type(bln) == int:
-				bln = str(bln)
+			bln = "0"+str(bln)
+#			if type(bln) == int:
+#				bln = str(bln)
 		for i in range(30):
 			tgl += 1
 			if tgl < 10:
-				hasil[1].append(self.banyak_ondate("0"+str(tgl)+"-"+bln))
+				hasil[1].append(self.banyak_ondate("0"+str(tgl)+"-"+str(bln)))
 			else:
-				hasil[1].append(self.banyak_ondate(str(tgl)+"-"+bln))
+				hasil[1].append(self.banyak_ondate(str(tgl)+"-"+str(bln)))
 			hasil[0].append(str(tgl))
 		return hasil, bln
