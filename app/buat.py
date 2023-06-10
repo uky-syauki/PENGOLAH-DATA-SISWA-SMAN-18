@@ -3,6 +3,7 @@ from app.models import Barang, Terjual
 from app.tabel import HitungTerjual
 import sqlite3
 from datetime import datetime
+from app.dataGrafik import DataGrafik as DG
 
 class Koneksi:
 	def __init__(self):
@@ -35,11 +36,14 @@ class DataGrafik:
 	def __init__(self,bulan=None):
 		self.ibln = bulan
 		self.allData = Terjual.query.all()
+		self.dg = DG().forKeuangan(bulan)
 		if bool(os.system("cat mysite/app/static/dataGrafig.json")):
 			self.f = open("mysite/app/static/dataGrafig.json","a")
 			self.getData, self.bln = self.full_date(self.ibln)
 			self.f.writelines("GrafikData =" + str(self.getData))
 			self.f.writelines(";\nbulan = ["+str(self.bln)+"]")
+			self.f.writelines(";\ntahun = ["+str(self.full_year())+"]")
+#			self.f.writelines(";\nKeuangan = "+str(self.dg))
 			self.f.close()
 		else:
 			os.system("rm mysite/app/static/dataGrafig.json")
@@ -72,3 +76,9 @@ class DataGrafik:
 				hasil[1].append(self.banyak_ondate(str(tgl)+"-"+str(bln)))
 			hasil[0].append(str(tgl))
 		return hasil, bln
+	def full_year(self):
+		tahun = []
+		for bl in range(1,13):
+			data, bln = self.full_date(bl)
+			tahun.append(data)
+		return tahun

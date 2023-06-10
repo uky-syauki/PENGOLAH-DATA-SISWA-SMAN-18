@@ -36,6 +36,21 @@
 						<td id="totalInfo"></td>
 					</tr>
 				</table>
+				<table class="table">
+					<tr>
+						<th>Kode Barang</th>
+						<th>Terjual</th>
+						<th>Modal</th>
+						<th>Keuntungan</th>
+					</tr>
+					{% for isi in data2 %}
+						<tr>
+							{% for d in isi %}
+								<td>{{ d }}</td>
+							{% endfor %}
+						</tr>
+					{% endfor %}
+				</table>
 	<!--
 				<div class="panel-body">
 					<ul class="list-group">
@@ -44,8 +59,9 @@
 					<ul class="list-group"> --
 						<li class="list-group-item">Cras justo odio</li>
 					</ul>
-				</div> -->
-				<canvas id="myChart" style="width: 100%; max-width:600px; max-height: 200px"></canvas>
+				</div> --
+				<canvas id="myChart" style="width: 100%; max-width:600px; max-height: 200px"></canvas> -->
+				<canvas id="barChart"></canvas>
 			</div>
 		</div>
 		<div class="col-md-5">
@@ -59,13 +75,20 @@
 		</div>
 	</div>
 </div>
+
 <div class="container">
 	<div class="row">
 		<div class="col-md-8">
-			<canvas id="barChart"></canvas>
+			<div class="panel panel-default">
+				<div class="panel-heading">Perbandingan Penjualan perbulan</div>
+				<div class="panel-body">
+					<canvas id="lineChart"></canvas>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
+
 <div class="container">
 	<div class="row">
 	<div class="col-md-8">

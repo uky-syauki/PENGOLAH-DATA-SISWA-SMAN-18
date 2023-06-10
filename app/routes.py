@@ -6,6 +6,8 @@ from app.forms import LoginForm, RegistrationForm, TransaksiForm, UpdateForm, St
 from app.models import User, Barang, Terjual
 from app.buat import Buat, DataGrafik
 from app.tabel import Table
+from app.dataGrafik import DataGrafik as DG
+from datetime import datetime
 
 app.app_context().push()
 
@@ -27,15 +29,17 @@ def login():
 	return render_template('login.html', title='Sign In', form=form)
 
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 @app.route('/index', methods=['GET','POST'])
 @login_required
 def index():
 	form = FormBulan()
-	DataGrafik("3")
+	DataGrafik(str(int(datetime.utcnow().strftime("%m"))))
 	user = {'username':'Ahmad syauki'}
 #	allTerjual = Terjual.query.all()
 	data = Table(Terjual).TableTrx()
+	data = data[:5]
+	data2 = DG().forKeuangan()
 #	for isi in allTerjual:
 #		bungkus = []
 #		bungkus.append(isi.timestamp.strftime("%H:%M %m-%d-%y"))
@@ -50,7 +54,8 @@ def index():
 #		data.append(bungkus)
 	if form.validate_on_submit():
 		DataGrafik(form.bulan.data)
-	return render_template('index.html', title='Halaman Utama', data=data, form=form)
+		data2 = DG().forKeuangan(form.bulan.data)
+	return render_template('index.html', title='Halaman Utama', data=data, data2=data2, form=form)
 
 
 @app.route("/user")
